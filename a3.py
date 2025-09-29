@@ -45,33 +45,25 @@ def get_actors(movie: Tuple[str, str, int, List[str]]) -> List[str]:
 
 
 def title_by_year(matches: List[str]) -> List[str]:
-    """Finds all movies made in the passed in year
+    year = int(matches[0])
+    result = []
 
-    Args:
-        matches - a list of 1 string, just the year. Note that this year is passed as a
-            string and should be converted to an int
-
-    Returns:
-        a list of movie titles made in the passed in year
-    """
-    pass
-
+    for movie in movie_db:
+        if get_year(movie) == year:
+            result.append(get_title(movie))
+    return result
 
 def title_by_year_range(matches: List[str]) -> List[str]:
-    """Finds all movies made in the passed in year range
+    result = []
+    start_year = int(matches[0])
+    end_year = int(matches[1])
 
-    Args:
-        matches - a list of 2 strings, the year beginning the range and the year ending
-            the range. For example, to get movies from 1991-1994 matches would look like
-            this - ["1991", "1994"] Note that these years are passed as strings and
-            should be converted to ints.
+    for movie in movie_db:
+        movie_year = get_year(movie)
+        if start_year <= movie_year <= end_year:
+            result.append(get_title(movie))
 
-    Returns:
-        a list of movie titles made during those years, inclusive (meaning if you pass
-        in ["1991", "1994"] you will get movies made in 1991, 1992, 1993 & 1994)
-    """
-    pass
-
+    return result
 
 def title_before_year(matches: List[str]) -> List[str]:
     """Finds all movies made before the passed in year
