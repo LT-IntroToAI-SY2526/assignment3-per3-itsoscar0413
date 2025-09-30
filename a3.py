@@ -66,91 +66,79 @@ def title_by_year_range(matches: List[str]) -> List[str]:
     return result
 
 def title_before_year(matches: List[str]) -> List[str]:
-    """Finds all movies made before the passed in year
+    result = []
+    year = int(matches[0])
 
-    Args:
-        matches - a list of 1 string, just the year. Note that this year is passed as a
-            string and should be converted to an int
+    for movie in movie_db:
+        if get_year(movie) < year: # ChatGPT helped me with this specific line
+            result.append(get_title(movie))
 
-    Returns:
-        a list of movie titles made before the passed in year, exclusive (meaning if you
-        pass in 1992 you won't get any movies made that year, only before)
-    """
-    pass
-
+    return result
 
 def title_after_year(matches: List[str]) -> List[str]:
-    """Finds all movies made after the passed in year
+    result = []
+    year = int(matches[0])
 
-    Args:
-        matches - a list of 1 string, just the year. Note that this year is passed as a
-            string and should be converted to an int
+    for movie in movie_db:
+        if get_year(movie) > year:
+            result.append(get_title(movie))
 
-    Returns:
-        a list of movie titles made after the passed in year, exclusive (meaning if you
-        pass in 1992 you won't get any movies made that year, only after)
-    """
-    pass
-
+    return result
 
 def director_by_title(matches: List[str]) -> List[str]:
-    """Finds director of movie based on title
+    result = []
+    title = matches[0]
 
-    Args:
-        matches - a list of 1 string, just the title
+    for movie in movie_db:
+        if get_title(movie) == title:
+            result.append(get_director(movie))
 
-    Returns:
-        a list of 1 string, the director of the movie
-    """
-    pass
-
+    return result
 
 def title_by_director(matches: List[str]) -> List[str]:
-    """Finds movies directed by the passed in director
+    result = []
+    director_name = matches[0]
 
-    Args:
-        matches - a list of 1 string, just the director
+    for movie in movie_db:
+        if get_director(movie) == director_name:
+            result.append(get_title(movie))
 
-    Returns:
-        a list of movies titles directed by the passed in director
-    """
-    pass
+    return result
 
 
 def actors_by_title(matches: List[str]) -> List[str]:
-    """Finds actors who acted in the passed in movie title
+    result = []
+    title = matches[0]
 
-    Args:
-        matches - a list of 1 string, just the movie title
+    for movie in movie_db:
+        if get_title(movie) == title:
+            result = get_actors(movie)
+            break
 
-    Returns:
-        a list of actors who acted in the passed in title
-    """
-    pass
+    return result
 
+def year_by_title(matches: List[str]) -> List[int]: #ChatGPT helped with this, but I don't understand the code even w/ asking
+    title = matches[0]
 
-def year_by_title(matches: List[str]) -> List[int]:
-    """Finds year of passed in movie title
-
-    Args:
-        matches - a list of 1 string, just the movie title
-
-    Returns:
-        a list of one item (an int), the year that the movie was made
-    """
-    pass
-
+    for movie in movie_db:
+        if get_title(movie) == title:
+            return [get_year(movie)]
+        
+    return []
 
 def title_by_actor(matches: List[str]) -> List[str]:
-    """Finds titles of all movies that the given actor was in
+    result = []
+    actor_name = matches[0]
 
-    Args:
-        matches - a list of 1 string, just the actor
+    for movie in movie_db:
+        actors = get_actors(movie)
 
-    Returns:
-        a list of movie titles that the actor acted in
-    """
-    pass
+        for actor in actors:
+            if actor_name in actor:
+                result.append(get_title(movie))
+                break
+
+    return result
 
 
 # dummy argument is ignored and doesn't matter
