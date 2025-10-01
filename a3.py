@@ -59,8 +59,7 @@ def title_by_year_range(matches: List[str]) -> List[str]:
     end_year = int(matches[1])
 
     for movie in movie_db:
-        movie_year = get_year(movie)
-        if start_year <= movie_year <= end_year:
+        if start_year <= get_year(movie) <= end_year:
             result.append(get_title(movie))
 
     return result
@@ -70,7 +69,7 @@ def title_before_year(matches: List[str]) -> List[str]:
     year = int(matches[0])
 
     for movie in movie_db:
-        if get_year(movie) < year: # ChatGPT helped me with this specific line
+        if get_year(movie) < year:
             result.append(get_title(movie))
 
     return result
@@ -113,33 +112,27 @@ def actors_by_title(matches: List[str]) -> List[str]:
     for movie in movie_db:
         if get_title(movie) == title:
             result = get_actors(movie)
-            break
-
     return result
 
-def year_by_title(matches: List[str]) -> List[int]: #ChatGPT helped with this, but I don't understand the code even w/ asking
+def year_by_title(matches: List[str]) -> List[int]: 
     title = matches[0]
+    result = []
 
     for movie in movie_db:
         if get_title(movie) == title:
-            return [get_year(movie)]
-        
-    return []
-
-def title_by_actor(matches: List[str]) -> List[str]:
-    result = []
-    actor_name = matches[0]
-
-    for movie in movie_db:
-        actors = get_actors(movie)
-
-        for actor in actors:
-            if actor_name in actor:
-                result.append(get_title(movie))
-                break
-
+            result.append(get_year(movie))
     return result
 
+def title_by_actor(matches: List[str]) -> List[str]:
+    actor = matches[0]
+    result = []
+
+    for movie in movie_db:
+        if actor in get_actors(movie):
+            result.append(get_title(movie))
+    return result
+
+#do own action here
 
 # dummy argument is ignored and doesn't matter
 def bye_action(dummy: List[str]) -> None:
