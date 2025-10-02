@@ -132,7 +132,15 @@ def title_by_actor(matches: List[str]) -> List[str]:
             result.append(get_title(movie))
     return result
 
-#do own action here
+def actor_by_director(matches: List[str]) -> List[str]: # my function
+    director_name = matches[0]
+    result = []
+
+    for movie in movie_db:
+        if get_director(movie) == director_name:
+            result = get_actors(movie)
+
+    return result
 
 # dummy argument is ignored and doesn't matter
 def bye_action(dummy: List[str]) -> None:
@@ -154,23 +162,25 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("who acted in %"), actors_by_title),
     (str.split("when was % made"), year_by_title),
     (str.split("in what movies did % appear"), title_by_actor),
+
+    (str.split("who directed a movie that % acted in "), actor_by_director), #mine
+
     (["bye"], bye_action),
 ]
 
 
 def search_pa_list(src: List[str]) -> List[str]:
-    """Takes source, finds matching pattern and calls corresponding action. If it finds
-    a match but has no answers it returns ["No answers"]. If it finds no match it
-    returns ["I don't understand"].
+    for pat, act in pa_list:
+        mat = match(pat, src)
 
-    Args:
-        source - a phrase represented as a list of words (strings)
-
-    Returns:
-        a list of answers. Will be ["I don't understand"] if it finds no matches and
-        ["No answers"] if it finds a match but no answers
-    """
-    pass
+        if mat is not None:
+            answer = act(mat)
+            if answer:
+                return answer 
+            else:
+                return ["No answers"] 
+            
+    return ["I don't understand"]
 
 
 def query_loop() -> None:
@@ -252,5 +262,11 @@ if __name__ == "__main__":
     assert sorted(
         search_pa_list(["what", "movies", "were", "made", "in", "2020"])
     ) == sorted(["No answers"]), "failed search_pa_list test 3"
+
+    #This one is my assert
+    assert isinstance(actor_by_director(["steven spielberg"]), list), "actor_by_director not returning a list"
+    assert sorted(actor_by_director(["steven spielberg"])) == sorted(
+        ["roy scheider", "robert shaw", "richard dreyfuss", "lorraine gary", "murray hamilton"]
+    ), "failed actor_by_director test"
 
     print("All tests passed!")
