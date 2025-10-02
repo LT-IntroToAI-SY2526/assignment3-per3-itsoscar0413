@@ -435,4 +435,17 @@ movie_db: List[Tuple[str, str, int, List[str]]] = [
             "spike lee",
         ],
     ),
+    (
+        "gladiator", #added my own movie
+        "ridley scott",
+        2000,
+        [
+            "russel crowe"
+            "joaquin pheonix"
+            "connie nielsen"
+            "oliver reed"
+            "richard harris"
+            "spencer treat clark"
+        ]
+    )
 ]
